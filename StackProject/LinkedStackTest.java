@@ -1,4 +1,4 @@
-package Stack Project;
+package StackProject;
 
 public class LinkedStackTest {
     
