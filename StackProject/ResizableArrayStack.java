@@ -10,14 +10,23 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
     private boolean integrityOK =false;
     private static final int DEFAULT_CAPACITY=50;
     private static final int MAX_CAPACITY = 1000;
+    private int numberOfEntries=0;
+    private Node firstNode;
 
     public ResizableArrayStack()
     {
         this(DEFAULT_CAPACITY);
+        firstNode = null;
+        integrityOK=false;
+        @SuppressWarnings("unchecked")
+            T[] tempStack = (T[])new Object[MAX_CAPACITY]; 
+            stack = tempStack;
+            integrityOK = true;
     } //end default constructor
 
     public ResizableArrayStack(int initialCapacity)
     {
+        firstNode = null;
         integrityOK = false;
         checkCapacity(initialCapacity);
 
@@ -27,6 +36,30 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
         stack = tempStack;
         topIndex=-1;
         integrityOK = true;
+    }
+
+    private void checkCapacity(int capacity)
+    {
+        if(capacity>MAX_CAPACITY)
+            throw new IllegalStateException("Attempt to create a bag whose"+"capacity exceeds allowed"+"maximum of"+MAX_CAPACITY);
+    }
+
+    private void checkIntegrity()
+    {
+        if (!integrityOK)
+            throw new SecurityException("ResizableArray object is corrupt.");
+    }
+
+    private void doubleCapacity()
+    {
+        int newLength=2*stack.length;
+        checkCapacity(newLength);
+        stack=Arrays.copyOf(stack, newLength);
+    }
+
+    public int getCurrentSize() 
+    {
+        return numberOfEntries;
     }
 
     public void push(T newEntry) 
@@ -46,6 +79,65 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
             stack=Arrays.copyOf(stack,newLength);
         } //end if
     } // end ensureCapacity
+
+    private int getIndexOf(T anEntry)
+    {
+        int where =-1;
+        boolean found = false;
+        int index = 0;
+
+        while (!found &&(index<numberOfEntries))
+        {
+            if (anEntry.equals(stack[index]))
+            {
+                found=true;
+                where=index;
+            }
+            index++;
+        }
+        return where;
+    }
+
+    public boolean contains(T anEntry) 
+    {
+        boolean found = false;
+		Node currentNode=firstNode;
+
+		while (!found && (currentNode !=null))
+		{
+			if (anEntry.equals(currentNode.data))
+				found = true;
+				else
+					currentNode =currentNode.next;
+		}
+		return found;
+    }
+
+    public T[] toArray() {
+        T[] copy = (T[])new Object[numberOfEntries];
+          for (int i = 0; i < this.numberOfEntries; i++) {
+              if(stack[i]!=null){
+                  copy[i] = stack[i];
+              }
+          }
+          return copy;
+      }
+
+      private class Node 
+      {
+          private T data;
+          private Node next;
+  
+          private Node(T dataPortion) {
+              this(dataPortion, null);
+          }
+  
+          private Node(T dataPortion, Node nextNode) {
+              data = dataPortion;
+              next = nextNode;
+          }
+      }
+  
 
     public T pop() 
     {
@@ -74,6 +166,11 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
     {
         return topIndex<0;
     } //end isEmpty
+
+    public boolean isArrayFull()
+    {
+        return numberOfEntries==bag.length;
+    }
 
     public void clear()
     {
