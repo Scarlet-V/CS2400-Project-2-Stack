@@ -122,22 +122,7 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
           }
           return copy;
       }
-
-      private class Node 
-      {
-          private T data;
-          private Node next;
-  
-          private Node(T dataPortion) {
-              this(dataPortion, null);
-          }
-  
-          private Node(T dataPortion, Node nextNode) {
-              data = dataPortion;
-              next = nextNode;
-          }
-      }
-  
+ 
 
     public T pop() 
     {
