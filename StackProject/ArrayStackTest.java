@@ -27,4 +27,10 @@ public class ArrayStackTest
             
             assertEquals("z",(s1.pop()));
         }
+
+     @Test           
+        public void testpeek() throws Exception
+        {
+            assertEquals("+",(s1.peek()));
+        }
 }
