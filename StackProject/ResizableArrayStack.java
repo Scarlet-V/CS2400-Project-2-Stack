@@ -199,6 +199,7 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
                     }
                     break;
                 default: 
+                    index++;
                     break;
             }
         }
@@ -208,4 +209,60 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
         }
         return postfix;
     }
+  
+    public int evaluatePostfix(String postfix) throws Exception {
+        StackInterface<Integer> valueStack = new ResizableArrayStack<>();
+        int index = 0;
+        while (postfix.length() != index) {
+            char nextCharacter = postfix.charAt(index);
+            switch (nextCharacter) {
+                case '1' : case '2' : case '3' : case '4' : case '5' : case '6' :
+                    int value = Character.getNumericValue(nextCharacter);
+                    System.out.println(value);
+                    valueStack.push(value);
+                    index++;
+                    break;
+                case '+' : 
+                    int operandTwo = valueStack.pop();
+                    int operandOne = valueStack.pop();
+                    int result = (operandOne + operandTwo);
+                    valueStack.push(result);
+                    index++;
+                    break;
+                case '-' : 
+                    int opeandTwo = valueStack.pop();
+                    int opeandOne = valueStack.pop();
+                    int result1 = (opeandOne - opeandTwo);
+                    valueStack.push(result1);
+                    index++;
+                    break;
+                case '*' : 
+                    int operadTwo = valueStack.pop();
+                    int operadOne = valueStack.pop();
+                    int result2 = (operadOne * operadTwo);
+                    valueStack.push(result2);
+                    index++;
+                    break;
+                case '/' : 
+                    int operanTwo = valueStack.pop();
+                    int operanOne = valueStack.pop();
+                    int result3 = (operanOne / operanTwo);
+                    valueStack.push(result3);
+                    index++;
+                    break;
+                case '^' :
+                    int operndTwo = valueStack.pop();
+                    int operndOne = valueStack.pop();
+                    int result4 = (operndOne ^ operndTwo);
+                    valueStack.push(result4);
+                    index++;
+                    break;
+                default :
+                    index++;
+                    break;
+            }
+        }
+        return valueStack.peek();
+    }
+
 }
