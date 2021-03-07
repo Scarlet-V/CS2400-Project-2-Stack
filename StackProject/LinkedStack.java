@@ -2,17 +2,17 @@ package StackProject;
 
 public class LinkedStack<T> implements StackInterface<T> 
 {
-    private Node<T> topNode; //references the fist node in the chain
+    private Node topNode; //references the fist node in the chain
     public LinkedStack()
     {
         topNode=null;
     } //end of default constructor
 
 
-    class Node<T>
+    class Node
     {
         T info;
-        Node<T>link;
+        Node link;
         link=null;
      //end Node
 
@@ -22,12 +22,12 @@ public class LinkedStack<T> implements StackInterface<T>
         link = null;
     }
 
-    public void setLink(Node<T> link)
+    public void setLink(Node link)
     {
         this.link = link;
     }
     //return the link
-    public Node<T> getLink()
+    public Node getLink()
     {
         return link;
     }
@@ -38,16 +38,16 @@ public class LinkedStack<T> implements StackInterface<T>
     }
     }
     // reference to the top of this stack
-    private Node<T> top;
+    private Node top;
 
     public void push(T newEntry)
     {
-        Node<T>newNode=new Node<>(newEntry);
+        Node newNode=new Node(newEntry);
         newNode.setLink(top);
         topNode = newNode;
     } // end push
 
-    public void pop() throws Exception
+    public T pop() throws Exception
     {
         if (isEmpty())
             throw new Exception("Pop attempted on an empty stack.");
