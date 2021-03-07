@@ -156,10 +156,8 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
     } //end clear
 
     //method to return priority of a operator
-   private int getPriority(char c)
-   {
-       switch(c)
-       {
+    private int getPriority(char c) {
+       switch(c) {
            case '(': case ')' : return 0;
            case '/': case '*': return 2;
            case '+': case '-': return 1;
@@ -174,10 +172,12 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
         while (infix.length() != index) {
             char nextCharacter = infix.charAt(index);
             switch (nextCharacter) {
-                case 'a' : case 'b' : case 'c' : case 'd' : case 'e' : case 'f' :
+                case 'a' : case 'b' : case 'c' : case 'd' : case 'e' : case 'f' : case 'g' : case 'h' : case 'i' : case 'j' : case 'k' : case 'l' : case 'm' :  
+                case 'n' : case 'o' : case 'p' : case 'q' : case 'r' : case 's' : case 't' : case 'u' : case 'v' : case 'w' : case 'x' : case 'y' : case 'z' :  
                     postfix = postfix.concat(Character.toString(nextCharacter));
                     index++;
                     break;
+
                 case '+' : case '-' : case '*' : case '/' :
                     while (!operatorStack.isEmpty() && (getPriority(nextCharacter) <= getPriority(operatorStack.peek()))) {
                         postfix = postfix.concat(operatorStack.peek().toString());
@@ -186,10 +186,12 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
                     operatorStack.push(nextCharacter);
                     index++;
                     break;
+
                 case '(' :
                     operatorStack.push(nextCharacter);
                     index++;
                     break;
+
                 case ')' :
                     char topOperator = operatorStack.pop();
                     while (topOperator != '(') {
@@ -198,6 +200,7 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
                         index++;
                     }
                     break;
+
                 default: 
                     index++;
                     break;
@@ -216,12 +219,12 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
         while (postfix.length() != index) {
             char nextCharacter = postfix.charAt(index);
             switch (nextCharacter) {
-                case '1' : case '2' : case '3' : case '4' : case '5' : case '6' :
+                case '1' : case '2' : case '3' : case '4' : case '5' : case '6' : case '7' : case '8' : case '9' :
                     int value = Character.getNumericValue(nextCharacter);
-                    System.out.println(value);
                     valueStack.push(value);
                     index++;
                     break;
+
                 case '+' : 
                     int operandTwo = valueStack.pop();
                     int operandOne = valueStack.pop();
@@ -229,6 +232,7 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
                     valueStack.push(result);
                     index++;
                     break;
+
                 case '-' : 
                     int opeandTwo = valueStack.pop();
                     int opeandOne = valueStack.pop();
@@ -236,6 +240,7 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
                     valueStack.push(result1);
                     index++;
                     break;
+
                 case '*' : 
                     int operadTwo = valueStack.pop();
                     int operadOne = valueStack.pop();
@@ -243,6 +248,7 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
                     valueStack.push(result2);
                     index++;
                     break;
+
                 case '/' : 
                     int operanTwo = valueStack.pop();
                     int operanOne = valueStack.pop();
@@ -250,13 +256,15 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
                     valueStack.push(result3);
                     index++;
                     break;
+
                 case '^' :
                     int operndTwo = valueStack.pop();
                     int operndOne = valueStack.pop();
-                    int result4 = (operndOne ^ operndTwo);
+                    int result4 = (int)Math.pow(operndOne, operndTwo);
                     valueStack.push(result4);
                     index++;
                     break;
+
                 default :
                     index++;
                     break;
