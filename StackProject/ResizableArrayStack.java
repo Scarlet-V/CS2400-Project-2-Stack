@@ -12,11 +12,14 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
     private static final int MAX_CAPACITY = 1000;
     private int numberOfEntries = 0;
 
+    /**Creates an empty resizable array stack with a capacity of 50. */
     public ResizableArrayStack()
     {
         this(DEFAULT_CAPACITY);
     } //end default constructor
 
+    /** Creates an empty resizable array stack with the designated capacity.
+     * @param initialCapacity Initial capacity of the stack. */
     public ResizableArrayStack(int initialCapacity)
     {
         integrityOK = false;
@@ -30,16 +33,19 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
         integrityOK = true;
     }
 
+    /** Throws IllegalStateException when trying to create a stack greater than 1000.
+     * @param capacity Capacity of the stack. */
     private void checkCapacity(int capacity)
     {
         if(capacity > MAX_CAPACITY)
-            throw new IllegalStateException("Attempt to create a bag whose"+"capacity exceeds allowed"+"maximum of"+MAX_CAPACITY);
+            throw new IllegalStateException("Attempt to create a stack whose"+"capacity exceeds allowed"+"maximum of"+MAX_CAPACITY);
     }
 
+    /** Checks to see if the stack is corrupt. */
     private void checkIntegrity()
     {
         if (!integrityOK)
-            throw new SecurityException("ResizableArray object is corrupt.");
+            throw new SecurityException("ResizableArrayStack object is corrupt.");
     }   
 
     public int getCurrentSize() 
@@ -55,6 +61,7 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
         topIndex++;
     } //end push
 
+    /** Checks to see if array is full, calls doubleCapacity if it is. */
     private void ensureCapacity()
     {
         if (topIndex >= stack.length - 1) //if array is full, double its size
@@ -63,6 +70,9 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
         } //end if
     } // end ensureCapacity
 
+    /** Doubles the capacity of the stack if full up to 1000.
+     * If trying to push into a max_capacity stack throws
+     * IllegalStateException. */
     private void doubleCapacity()
     {
         if (stack.length == MAX_CAPACITY) {
@@ -155,7 +165,9 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
         //Assertion: topIndex is -1
     } //end clear
 
-    //method to return priority of a operator
+    /** Finds the priority of a character in the stack,
+     * @param c Character passed from the infix.
+     * @return Priority of the character in the stack. */
     private int getPriority(char c) {
        switch(c) {
            case '(': case ')' : return 0;
@@ -165,6 +177,10 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
        }
    }
 
+   /** Converts an equation of variable in infix form to postfix form.
+    * @param infix An infix equation to be converted.
+    * @return A converted infix equation to postfix.
+    * @throws Exception If popping/peeking an empty stack. */
     public String convertToPostfix(String infix) throws Exception {
         StackInterface<Character> operatorStack = new ResizableArrayStack<>();
         String postfix = "";
@@ -213,6 +229,10 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
         return postfix;
     }
   
+    /** Evaluates an equation of numbers in postfix form.
+     * @param postfix A postfix equation to be evaluated.
+     * @return The value of the postfix equation.
+     * @throws Exception If popping/peeking an empty stack. */
     public int evaluatePostfix(String postfix) throws Exception {
         StackInterface<Integer> valueStack = new ResizableArrayStack<>();
         int index = 0;
