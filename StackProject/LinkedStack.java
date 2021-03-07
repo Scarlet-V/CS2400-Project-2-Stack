@@ -2,18 +2,12 @@ package StackProject;
 
 public class LinkedStack<T> implements StackInterface<T> 
 {
-    private Node topNode; //references the fist node in the chain
-    public LinkedStack()
-    {
-        topNode=null;
-    } //end of default constructor
-
-
+    
     class Node
     {
         T info;
         Node link;
-        link=null;
+        
      //end Node
 
     public Node(T info)
@@ -36,15 +30,20 @@ public class LinkedStack<T> implements StackInterface<T>
     {
         return info;
     }
-    }
+}
     // reference to the top of this stack
     private Node top;
+    
+    public LinkedStack()
+    {
+        top = null;
+    } //end of default constructor
 
     public void push(T newEntry)
     {
         Node newNode=new Node(newEntry);
         newNode.setLink(top);
-        topNode = newNode;
+        top = newNode;
     } // end push
 
     public T pop() throws Exception
@@ -53,6 +52,7 @@ public class LinkedStack<T> implements StackInterface<T>
             throw new Exception("Pop attempted on an empty stack.");
        else
         top = top.getLink();
+        return top;
     } //end pop
 
     public T peek() throws Exception
@@ -75,7 +75,7 @@ public class LinkedStack<T> implements StackInterface<T>
 
     public void clear ()
     {
-        topNode = null;
+        top = null;
     } // end clear
 
     class InfixToPostfix
