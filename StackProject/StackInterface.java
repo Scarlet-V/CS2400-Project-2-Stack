@@ -10,7 +10,7 @@ public interface StackInterface<T>
        @return  The object at the top of the stack. 
  * @throws Exception
        @throws  EmptyStackException if the stack is empty before the operation. */
-   public void pop() throws Exception;
+   public T pop() throws Exception;
   
    /** Retrieves this stack's top entry.
        @return  The object at the top of the stack.
