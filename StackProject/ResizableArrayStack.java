@@ -139,15 +139,17 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
         StackInterface<Character> operatorStack = new ResizableArrayStack<>();
         String postfix = "";
         int index = 0;
+
         while (infix.length() != index) {
             char nextCharacter = infix.charAt(index);
-            switch (nextCharacter) {
-                case 'a' : case 'b' : case 'c' : case 'd' : case 'e' : case 'f' : case 'g' : case 'h' : case 'i' : case 'j' : case 'k' : case 'l' : case 'm' :  
-                case 'n' : case 'o' : case 'p' : case 'q' : case 'r' : case 's' : case 't' : case 'u' : case 'v' : case 'w' : case 'x' : case 'y' : case 'z' :  
-                    postfix = postfix.concat(Character.toString(nextCharacter));
-                    index++;
-                    break;
-
+            if (Character.isLetter(nextCharacter)) {
+                postfix = postfix.concat(Character.toString(nextCharacter));
+                System.out.println(postfix);
+                index++;
+            }
+            else {
+                switch (nextCharacter) {
+                
                 case '+' : case '-' : case '*' : case '/' :
                     while (!operatorStack.isEmpty() && (getPriority(nextCharacter) <= getPriority(operatorStack.peek()))) {
                         postfix = postfix.concat(operatorStack.peek().toString());
@@ -174,8 +176,10 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
                 default: 
                     index++;
                     break;
-            }
+                }
+            }   
         }
+
         while (!operatorStack.isEmpty()) {
             char topOperator = operatorStack.pop();
             postfix = postfix.concat(Character.toString(topOperator));
@@ -192,57 +196,59 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
         int index = 0;
         while (postfix.length() != index) {
             char nextCharacter = postfix.charAt(index);
-            switch (nextCharacter) {
-                case '1' : case '2' : case '3' : case '4' : case '5' : case '6' : case '7' : case '8' : case '9' :
-                    int value = Character.getNumericValue(nextCharacter);
+            if (Character.isDigit(nextCharacter)) {
+                int value = Character.getNumericValue(nextCharacter);
                     valueStack.push(value);
                     index++;
-                    break;
-
-                case '+' : 
-                    int operandTwo = valueStack.pop();
-                    int operandOne = valueStack.pop();
-                    int result = (operandOne + operandTwo);
-                    valueStack.push(result);
-                    index++;
-                    break;
-
-                case '-' : 
-                    int opeandTwo = valueStack.pop();
-                    int opeandOne = valueStack.pop();
-                    int result1 = (opeandOne - opeandTwo);
-                    valueStack.push(result1);
-                    index++;
-                    break;
-
-                case '*' : 
-                    int operadTwo = valueStack.pop();
-                    int operadOne = valueStack.pop();
-                    int result2 = (operadOne * operadTwo);
-                    valueStack.push(result2);
-                    index++;
-                    break;
-
-                case '/' : 
-                    int operanTwo = valueStack.pop();
-                    int operanOne = valueStack.pop();
-                    int result3 = (operanOne / operanTwo);
-                    valueStack.push(result3);
-                    index++;
-                    break;
-
-                case '^' :
-                    int operndTwo = valueStack.pop();
-                    int operndOne = valueStack.pop();
-                    int result4 = (int)Math.pow(operndOne, operndTwo);
-                    valueStack.push(result4);
-                    index++;
-                    break;
-
-                default :
-                    index++;
-                    break;
             }
+            else {
+                switch (nextCharacter) {
+
+                    case '+' : 
+                        int operandTwo = valueStack.pop();
+                        int operandOne = valueStack.pop();
+                        int result = (operandOne + operandTwo);
+                        valueStack.push(result);
+                        index++;
+                        break;
+    
+                    case '-' : 
+                        int opeandTwo = valueStack.pop();
+                        int opeandOne = valueStack.pop();
+                        int result1 = (opeandOne - opeandTwo);
+                        valueStack.push(result1);
+                        index++;
+                        break;
+    
+                    case '*' : 
+                        int operadTwo = valueStack.pop();
+                        int operadOne = valueStack.pop();
+                        int result2 = (operadOne * operadTwo);
+                        valueStack.push(result2);
+                        index++;
+                        break;
+    
+                    case '/' : 
+                        int operanTwo = valueStack.pop();
+                        int operanOne = valueStack.pop();
+                        int result3 = (operanOne / operanTwo);
+                        valueStack.push(result3);
+                        index++;
+                        break;
+    
+                    case '^' :
+                        int operndTwo = valueStack.pop();
+                        int operndOne = valueStack.pop();
+                        int result4 = (int)Math.pow(operndOne, operndTwo);
+                        valueStack.push(result4);
+                        index++;
+                        break;
+    
+                    default :
+                        index++;
+                        break;
+                }
+            } 
         }
         return valueStack.peek();
     }
