@@ -51,8 +51,7 @@ public class LinkedStack<T> implements StackInterface<T>
         if (isEmpty())
             throw new Exception("Pop attempted on an empty stack.");
        else
-        top = top.getLink();
-        return top;
+        return top.getInfo();
     } //end pop
 
     public T peek() throws Exception
