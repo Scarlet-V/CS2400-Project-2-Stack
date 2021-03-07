@@ -10,13 +10,15 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
     private boolean integrityOK = false;
     private static final int DEFAULT_CAPACITY = 50;
     private static final int MAX_CAPACITY = 1000;
-    private int numberOfEntries = 0;
 
+    /**Creates an empty resizable array stack with a capacity of 50. */
     public ResizableArrayStack()
     {
         this(DEFAULT_CAPACITY);
     } //end default constructor
 
+    /** Creates an empty resizable array stack with the designated capacity.
+     * @param initialCapacity Initial capacity of the stack. */
     public ResizableArrayStack(int initialCapacity)
     {
         integrityOK = false;
@@ -30,22 +32,20 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
         integrityOK = true;
     }
 
+    /** Throws IllegalStateException when trying to create a stack greater than 1000.
+     * @param capacity Capacity of the stack. */
     private void checkCapacity(int capacity)
     {
         if(capacity > MAX_CAPACITY)
-            throw new IllegalStateException("Attempt to create a bag whose"+"capacity exceeds allowed"+"maximum of"+MAX_CAPACITY);
+            throw new IllegalStateException("Attempt to create a stack whose"+"capacity exceeds allowed"+"maximum of"+MAX_CAPACITY);
     }
 
+    /** Checks to see if the stack is corrupt. */
     private void checkIntegrity()
     {
         if (!integrityOK)
-            throw new SecurityException("ResizableArray object is corrupt.");
+            throw new SecurityException("ResizableArrayStack object is corrupt.");
     }   
-
-    public int getCurrentSize() 
-    {
-        return numberOfEntries;
-    }
 
     public void push(T newEntry) 
     {
@@ -55,6 +55,7 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
         topIndex++;
     } //end push
 
+    /** Checks to see if array is full, calls doubleCapacity if it is. */
     private void ensureCapacity()
     {
         if (topIndex >= stack.length - 1) //if array is full, double its size
@@ -63,6 +64,9 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
         } //end if
     } // end ensureCapacity
 
+    /** Doubles the capacity of the stack if full up to 1000.
+     * If trying to push into a max_capacity stack throws
+     * IllegalStateException. */
     private void doubleCapacity()
     {
         if (stack.length == MAX_CAPACITY) {
@@ -74,41 +78,6 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
         }
         stack = Arrays.copyOf(stack, newLength);
     }
-
-    public boolean contains(T anEntry) 
-    {
-        checkIntegrity();
-		return getIndexOf(anEntry) > -1;
-    }
-
-    private int getIndexOf(T anEntry)
-    {
-        int where = -1;
-        boolean found = false;
-        int index = 0;
-
-        while (!found && (index < numberOfEntries))
-        {
-            if (anEntry.equals(stack[index]))
-            {
-                found = true;
-                where = index;
-            }
-            index++;
-        }
-        return where;
-    }
-
-    public T[] toArray() {
-        @SuppressWarnings("unchecked")
-        T[] copy = (T[])new Object[numberOfEntries];
-          for (int i = 0; i < this.numberOfEntries; i++) {
-              if (stack[i] != null) {
-                  copy[i] = stack[i];
-              }
-          }
-        return copy;
-      }
 
     public T pop() 
     {
@@ -138,11 +107,6 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
         return topIndex < 0;
     } //end isEmpty
 
-    public boolean isArrayFull()
-    {
-        return numberOfEntries == stack.length;
-    }
-
     public void clear()
     {
         checkIntegrity();
@@ -155,11 +119,11 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
         //Assertion: topIndex is -1
     } //end clear
 
-    //method to return priority of a operator
-   private int getPriority(char c)
-   {
-       switch(c)
-       {
+    /** Finds the priority of a character in the stack,
+     * @param c Character passed from the infix.
+     * @return Priority of the character in the stack. */
+    private int getPriority(char c) {
+       switch(c) {
            case '(': case ')' : return 0;
            case '/': case '*': return 2;
            case '+': case '-': return 1;
@@ -167,6 +131,10 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
        }
    }
 
+   /** Converts an equation of variable in infix form to postfix form.
+    * @param infix An infix equation to be converted.
+    * @return A converted infix equation to postfix.
+    * @throws Exception If popping/peeking an empty stack. */
     public String convertToPostfix(String infix) throws Exception {
         StackInterface<Character> operatorStack = new ResizableArrayStack<>();
         String postfix = "";
@@ -174,10 +142,12 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
         while (infix.length() != index) {
             char nextCharacter = infix.charAt(index);
             switch (nextCharacter) {
-                case 'a' : case 'b' : case 'c' : case 'd' : case 'e' : case 'f' :
+                case 'a' : case 'b' : case 'c' : case 'd' : case 'e' : case 'f' : case 'g' : case 'h' : case 'i' : case 'j' : case 'k' : case 'l' : case 'm' :  
+                case 'n' : case 'o' : case 'p' : case 'q' : case 'r' : case 's' : case 't' : case 'u' : case 'v' : case 'w' : case 'x' : case 'y' : case 'z' :  
                     postfix = postfix.concat(Character.toString(nextCharacter));
                     index++;
                     break;
+
                 case '+' : case '-' : case '*' : case '/' :
                     while (!operatorStack.isEmpty() && (getPriority(nextCharacter) <= getPriority(operatorStack.peek()))) {
                         postfix = postfix.concat(operatorStack.peek().toString());
@@ -186,10 +156,12 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
                     operatorStack.push(nextCharacter);
                     index++;
                     break;
+
                 case '(' :
                     operatorStack.push(nextCharacter);
                     index++;
                     break;
+
                 case ')' :
                     char topOperator = operatorStack.pop();
                     while (topOperator != '(') {
@@ -198,6 +170,7 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
                         index++;
                     }
                     break;
+
                 default: 
                     index++;
                     break;
@@ -210,18 +183,22 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
         return postfix;
     }
   
+    /** Evaluates an equation of numbers in postfix form.
+     * @param postfix A postfix equation to be evaluated.
+     * @return The value of the postfix equation.
+     * @throws Exception If popping/peeking an empty stack. */
     public int evaluatePostfix(String postfix) throws Exception {
         StackInterface<Integer> valueStack = new ResizableArrayStack<>();
         int index = 0;
         while (postfix.length() != index) {
             char nextCharacter = postfix.charAt(index);
             switch (nextCharacter) {
-                case '1' : case '2' : case '3' : case '4' : case '5' : case '6' :
+                case '1' : case '2' : case '3' : case '4' : case '5' : case '6' : case '7' : case '8' : case '9' :
                     int value = Character.getNumericValue(nextCharacter);
-                    System.out.println(value);
                     valueStack.push(value);
                     index++;
                     break;
+
                 case '+' : 
                     int operandTwo = valueStack.pop();
                     int operandOne = valueStack.pop();
@@ -229,6 +206,7 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
                     valueStack.push(result);
                     index++;
                     break;
+
                 case '-' : 
                     int opeandTwo = valueStack.pop();
                     int opeandOne = valueStack.pop();
@@ -236,6 +214,7 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
                     valueStack.push(result1);
                     index++;
                     break;
+
                 case '*' : 
                     int operadTwo = valueStack.pop();
                     int operadOne = valueStack.pop();
@@ -243,6 +222,7 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
                     valueStack.push(result2);
                     index++;
                     break;
+
                 case '/' : 
                     int operanTwo = valueStack.pop();
                     int operanOne = valueStack.pop();
@@ -250,13 +230,15 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
                     valueStack.push(result3);
                     index++;
                     break;
+
                 case '^' :
                     int operndTwo = valueStack.pop();
                     int operndOne = valueStack.pop();
-                    int result4 = (operndOne ^ operndTwo);
+                    int result4 = (int)Math.pow(operndOne, operndTwo);
                     valueStack.push(result4);
                     index++;
                     break;
+
                 default :
                     index++;
                     break;
