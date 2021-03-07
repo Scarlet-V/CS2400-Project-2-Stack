@@ -155,4 +155,57 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
         //Assertion: topIndex is -1
     } //end clear
 
+    //method to return priority of a operator
+   private int getPriority(char c)
+   {
+       switch(c)
+       {
+           case '(': case ')' : return 0;
+           case '/': case '*': return 2;
+           case '+': case '-': return 1;
+           default: return 999;
+       }
+   }
+
+    public String convertToPostfix(String infix) throws Exception {
+        StackInterface<Character> operatorStack = new ResizableArrayStack<>();
+        String postfix = "";
+        int index = 0;
+        while (infix.length() != index) {
+            char nextCharacter = infix.charAt(index);
+            switch (nextCharacter) {
+                case 'a' : case 'b' : case 'c' : case 'd' : case 'e' : case 'f' :
+                    postfix = postfix.concat(Character.toString(nextCharacter));
+                    index++;
+                    break;
+                case '+' : case '-' : case '*' : case '/' :
+                    while (!operatorStack.isEmpty() && (getPriority(nextCharacter) <= getPriority(operatorStack.peek()))) {
+                        postfix = postfix.concat(operatorStack.peek().toString());
+                        operatorStack.pop();
+                    }
+                    operatorStack.push(nextCharacter);
+                    index++;
+                    break;
+                case '(' :
+                    operatorStack.push(nextCharacter);
+                    index++;
+                    break;
+                case ')' :
+                    char topOperator = operatorStack.pop();
+                    while (topOperator != '(') {
+                        postfix = postfix.concat(Character.toString(topOperator));
+                        topOperator = operatorStack.pop();
+                        index++;
+                    }
+                    break;
+                default: 
+                    break;
+            }
+        }
+        while (!operatorStack.isEmpty()) {
+            char topOperator = operatorStack.pop();
+            postfix = postfix.concat(Character.toString(topOperator));
+        }
+        return postfix;
+    }
 }
