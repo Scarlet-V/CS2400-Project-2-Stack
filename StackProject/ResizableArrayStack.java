@@ -10,7 +10,6 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
     private boolean integrityOK = false;
     private static final int DEFAULT_CAPACITY = 50;
     private static final int MAX_CAPACITY = 1000;
-    private int numberOfEntries = 0;
 
     /**Creates an empty resizable array stack with a capacity of 50. */
     public ResizableArrayStack()
@@ -48,11 +47,6 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
             throw new SecurityException("ResizableArrayStack object is corrupt.");
     }   
 
-    public int getCurrentSize() 
-    {
-        return numberOfEntries;
-    }
-
     public void push(T newEntry) 
     {
         checkIntegrity();
@@ -85,41 +79,6 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
         stack = Arrays.copyOf(stack, newLength);
     }
 
-    public boolean contains(T anEntry) 
-    {
-        checkIntegrity();
-		return getIndexOf(anEntry) > -1;
-    }
-
-    private int getIndexOf(T anEntry)
-    {
-        int where = -1;
-        boolean found = false;
-        int index = 0;
-
-        while (!found && (index < numberOfEntries))
-        {
-            if (anEntry.equals(stack[index]))
-            {
-                found = true;
-                where = index;
-            }
-            index++;
-        }
-        return where;
-    }
-
-    public T[] toArray() {
-        @SuppressWarnings("unchecked")
-        T[] copy = (T[])new Object[numberOfEntries];
-          for (int i = 0; i < this.numberOfEntries; i++) {
-              if (stack[i] != null) {
-                  copy[i] = stack[i];
-              }
-          }
-        return copy;
-      }
-
     public T pop() 
     {
         checkIntegrity();
@@ -147,11 +106,6 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
     {
         return topIndex < 0;
     } //end isEmpty
-
-    public boolean isArrayFull()
-    {
-        return numberOfEntries == stack.length;
-    }
 
     public void clear()
     {
