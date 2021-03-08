@@ -69,11 +69,6 @@ public class LinkedStack<T> implements StackInterface<T>
         return top == null;
     } // end isEmpty
 
-    public boolean isFull()
-   {
-       return false;
-   }
-
     public void clear ()
     {
         top = null;
