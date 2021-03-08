@@ -3,56 +3,64 @@ package StackProject;
 public class LinkedStack<T> implements StackInterface<T> 
 {
     
-    class Node
+    private class Node
     {
-        T info;
-        Node link;
+        
+        private T data;
+        private Node next;
         
      //end Node
 
-    public Node(T info)
-    {
-        this.info = info;
-        link = null;
+     private Node(T dataPortion) {
+        this(dataPortion, null);
     }
 
-    public void setLink(Node link)
-    {
-        this.link = link;
+    private Node(T dataPortion, Node nextNode) {
+        data = dataPortion;
+        next = nextNode;
     }
-    //return the link
-    public Node getLink()
-    {
-        return link;
+
+    private T getData() {
+        return data;
     }
-    //return the info
-    public T getInfo()
-    {
-        return info;
+
+    private void setData(T newData) {
+        data = newData;
+    }
+
+    private Node getNextNode() {
+        return next;
+    }
+
+    private void setNextNode(Node nextNode) {
+        next = nextNode;
     }
 }
     // reference to the top of this stack
     private Node top;
+    private Node topNode;
     
     public LinkedStack()
     {
-        top = null;
+        topNode=null;
     } //end of default constructor
 
     public void push(T newEntry)
     {
-        Node newNode=new Node(newEntry);
-        newNode.setLink(top);
-        top = newNode;
+        Node newNode = new Node(newEntry, topNode);
+        topNode = newNode;
+
     } // end push
 
     public T pop() throws Exception
     {
+        T top = peek();
+        assert(topNode != null);       
         if (isEmpty())
             throw new Exception("Pop attempted on an empty stack.");
        else
-        
-        return top.getInfo();
+       topNode = topNode.getNextNode();
+        return top;
     } //end pop
 
     public T peek() throws Exception
@@ -60,18 +68,17 @@ public class LinkedStack<T> implements StackInterface<T>
         if (isEmpty())
             throw new Exception("Pop attempted on an empty stack.");
         else
-            top = top.getLink();
-            return top.getInfo();
+        return topNode.getData();
     } //end peak
 
     public boolean isEmpty()
     {
-        return top == null;
+        return topNode == null;
     } // end isEmpty
 
     public void clear ()
     {
-        top = null;
+        topNode = null;
     } // end clear
 
     class InfixToPostfix
