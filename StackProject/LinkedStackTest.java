@@ -34,7 +34,13 @@ public class LinkedStackTest
             assertEquals("*",(s1.peek()));
         }
 
-    
+    @Test
+        public void push() throws Exception
+        {
+            System.out.println("push");
+            s1.push("t");
+            assertEquals( "t", new String("t") );
+        }
         
 }
 
