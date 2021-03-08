@@ -37,7 +37,6 @@ public class LinkedStack<T> implements StackInterface<T>
     }
 }
     // reference to the top of this stack
-    private Node top;
     private Node topNode;
     
     public LinkedStack()
@@ -68,7 +67,7 @@ public class LinkedStack<T> implements StackInterface<T>
         if (isEmpty())
             throw new Exception("Pop attempted on an empty stack.");
         else
-        return topNode.getData();
+            return topNode.getData();
     } //end peak
 
     public boolean isEmpty()

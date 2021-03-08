@@ -20,6 +20,7 @@ public class LinkedStackTest
         s1.push("*");
         s1.push("e");
         }
+
     @Test
          
         public void testpop() throws Exception
@@ -44,6 +45,27 @@ public class LinkedStackTest
             s1.push("p");
             assertEquals( "p", new String("p") );
         }
+
+        @Test
+        public void testConvertToPostfix(String infix) throws Exception 
+        {
+            
+            s1.push("a");
+            s1.push("*");
+            s1.push("b");
+            s1.push("/");
+            s1.push("(");
+            s1.push("c");
+            s1.push("-");
+            s1.push("a");
+            s1.push(")");
+            s1.push("+");
+            s1.push("d");
+            s1.push("*");
+            s1.push("e");
+            assertEquals("ab*ca-/de*+", (s1.convertToPostfix(infix));
+        }
+
         
 }
 
