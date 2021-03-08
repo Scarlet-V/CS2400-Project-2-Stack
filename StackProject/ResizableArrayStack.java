@@ -188,23 +188,25 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
     }
   
     /** Evaluates an equation of numbers in postfix form.
+     * (Must have spaces between numbers and operators).
      * @param postfix A postfix equation to be evaluated.
      * @return The value of the postfix equation.
      * @throws Exception If popping/peeking an empty stack. */
     public int evaluatePostfix(String postfix) throws Exception {
         StackInterface<Integer> valueStack = new ResizableArrayStack<>();
+        String [] tokens = postfix.split("[ ]");
         int index = 0;
-        while (postfix.length() != index) {
-            char nextCharacter = postfix.charAt(index);
-            if (Character.isDigit(nextCharacter)) {
-                int value = Character.getNumericValue(nextCharacter);
-                    valueStack.push(value);
-                    index++;
+        while (tokens.length != index) {
+            String nextCharacter = tokens[index];
+            if (isNumber(nextCharacter)) {
+                int value = Integer.parseInt(nextCharacter);
+                valueStack.push(value);
+                index++;
             }
             else {
                 switch (nextCharacter) {
 
-                    case '+' : 
+                    case "+" : 
                         int operandTwo = valueStack.pop();
                         int operandOne = valueStack.pop();
                         int result = (operandOne + operandTwo);
@@ -212,7 +214,7 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
                         index++;
                         break;
     
-                    case '-' : 
+                    case "-" : 
                         int opeandTwo = valueStack.pop();
                         int opeandOne = valueStack.pop();
                         int result1 = (opeandOne - opeandTwo);
@@ -220,7 +222,7 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
                         index++;
                         break;
     
-                    case '*' : 
+                    case "*" : 
                         int operadTwo = valueStack.pop();
                         int operadOne = valueStack.pop();
                         int result2 = (operadOne * operadTwo);
@@ -228,7 +230,7 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
                         index++;
                         break;
     
-                    case '/' : 
+                    case "/" : 
                         int operanTwo = valueStack.pop();
                         int operanOne = valueStack.pop();
                         int result3 = (operanOne / operanTwo);
@@ -236,7 +238,7 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
                         index++;
                         break;
     
-                    case '^' :
+                    case "^" :
                         int operndTwo = valueStack.pop();
                         int operndOne = valueStack.pop();
                         int result4 = (int)Math.pow(operndOne, operndTwo);
@@ -251,6 +253,23 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
             } 
         }
         return valueStack.peek();
+    }
+
+    /** Method that checks if a string is a number.
+     * @param nextCharacter String to be checked.
+     * @return True if it is a number, false if not. */
+    private boolean isNumber(String nextCharacter) {
+        if (nextCharacter == null) {
+            return false;
+        }
+
+        try {
+            int number = Integer.parseInt(nextCharacter);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+
+        return true;
     }
 
 }
