@@ -144,7 +144,6 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
             char nextCharacter = infix.charAt(index);
             if (Character.isLetter(nextCharacter)) {
                 postfix = postfix.concat(Character.toString(nextCharacter));
-                System.out.println(postfix);
                 index++;
             }
             else {
@@ -215,33 +214,33 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
                         break;
     
                     case "-" : 
-                        int opeandTwo = valueStack.pop();
-                        int opeandOne = valueStack.pop();
-                        int result1 = (opeandOne - opeandTwo);
+                        int secondOperand = valueStack.pop();
+                        int firstOperand = valueStack.pop();
+                        int result1 = (firstOperand - secondOperand);
                         valueStack.push(result1);
                         index++;
                         break;
     
                     case "*" : 
-                        int operadTwo = valueStack.pop();
-                        int operadOne = valueStack.pop();
-                        int result2 = (operadOne * operadTwo);
+                        int operand2 = valueStack.pop();
+                        int operand1 = valueStack.pop();
+                        int result2 = (operand1 * operand2);
                         valueStack.push(result2);
                         index++;
                         break;
     
                     case "/" : 
-                        int operanTwo = valueStack.pop();
-                        int operanOne = valueStack.pop();
-                        int result3 = (operanOne / operanTwo);
+                        int operandSecond = valueStack.pop();
+                        int operandFirst = valueStack.pop();
+                        int result3 = (operandFirst / operandSecond);
                         valueStack.push(result3);
                         index++;
                         break;
     
                     case "^" :
-                        int operndTwo = valueStack.pop();
-                        int operndOne = valueStack.pop();
-                        int result4 = (int)Math.pow(operndOne, operndTwo);
+                        int operandSecondNumber = valueStack.pop();
+                        int operandFirstNumber = valueStack.pop();
+                        int result4 = (int)Math.pow(operandFirstNumber, operandSecondNumber);
                         valueStack.push(result4);
                         index++;
                         break;
