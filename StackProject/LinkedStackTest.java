@@ -63,7 +63,7 @@ public class LinkedStackTest
             s1.push("d");
             s1.push("*");
             s1.push("e");
-            assertEquals("ab*ca-/de*+", (s1.convertToPostfix(infix));
+            assertEquals("ab*ca-/de*+", s1.convertToPostfix(infix));
         }
 
         
