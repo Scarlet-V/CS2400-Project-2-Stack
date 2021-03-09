@@ -8,7 +8,7 @@ public interface StackInterface<T>
   
    /** Removes and returns this stack's top entry.
        @return  The object at the top of the stack. 
- * @throws Exception
+       @throws Exception
        @throws  EmptyStackException if the stack is empty before the operation. */
    public T pop() throws Exception;
   
