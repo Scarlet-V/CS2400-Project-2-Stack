@@ -24,40 +24,24 @@ public class ArrayStackTest {
         }
 
     @Test
-        public void testpop() throws Exception {
+        public void testPop() throws Exception {
             s1.push("c");
             s1.push("-");
             s1.push("a");
-            s1.push("*");
-            s1.push("(");
-            s1.push("n");
-            s1.push("-");
-            s1.push("b");
-            s1.push(")");
-            s1.push("*");
-            s1.push("f");
-            s1.push("+");
-            s1.push("z");
-            assertEquals("z", s1.pop());
+            s1.pop();
+            assertEquals("-", s1.pop());
         }
 
      @Test           
-        public void testpeek() throws Exception {
+        public void testPeek() throws Exception {
             s1.push("c");
-            s1.push("-");
-            s1.push("a");
-            s1.push("*");
-            s1.push("(");
-            s1.push("n");
-            s1.push("-");
-            s1.push("b");
-            s1.push(")");
-            s1.push("*");
-            s1.push("f");
-            s1.push("+");
-            s1.push("z");
-            s1.pop();
-            assertEquals("+", s1.peek());
+            assertEquals("c", s1.peek());
+        }
+
+    @Test           
+        public void testPush() throws Exception {
+            s1.push("c");
+            assertEquals(false, s1.isEmpty());
         }
 
 }
