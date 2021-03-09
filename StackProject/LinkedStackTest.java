@@ -1,10 +1,10 @@
 package StackProject;
-import org.junit. *;
-import static org.junit.Assert. *;
+import org.junit.*;
+import static org.junit.Assert.*;
 
 public class LinkedStackTest 
 {
-    StackInterface<String> s1 = new LinkedStack<String>();
+    LinkedStack<String> s1 = new LinkedStack<String>();
     {
         s1.push("a");
         s1.push("");
@@ -21,9 +21,8 @@ public class LinkedStackTest
         s1.push("e");
         }
 
-    @Test
-         
-        public void testpop() throws Exception
+    @Test 
+        public void testPop() throws Exception
         { 
             s1.pop();
             s1.pop();               
@@ -31,39 +30,25 @@ public class LinkedStackTest
         }
 
      @Test           
-        public void testpeek() throws Exception
+        public void testPeek() throws Exception
         {
             s1.push("p");
-            assertEquals("e",(s1.peek()));
+            assertEquals("p",(s1.peek()));
         }
 
     @Test
-        public void push() throws Exception
+        public void testPush() throws Exception
         {
-            System.out.println("push");
             s1.push("t");
             s1.push("p");
-            assertEquals( "p", new String("p") );
+            assertEquals( "p", s1.peek() );
         }
 
         @Test
-        public void testConvertToPostfix(String infix) throws Exception 
+        public void testConvertToPostfix() throws Exception 
         {
-            
-            s1.push("a");
-            s1.push("*");
-            s1.push("b");
-            s1.push("/");
-            s1.push("(");
-            s1.push("c");
-            s1.push("-");
-            s1.push("a");
-            s1.push(")");
-            s1.push("+");
-            s1.push("d");
-            s1.push("*");
-            s1.push("e");
-            assertEquals("ab*ca-/de*+", s1.convertToPostfix(infix));
+            String infix = "a*b/(c-a)+d*e";
+            assertEquals("a b * c a - / d e * + ", s1.convertToPostfix(infix));
         }
 
         
